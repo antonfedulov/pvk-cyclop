@@ -1,14 +1,12 @@
-import './App.css';
+import './App.scss';
+import { Routes, Route } from 'react-router-dom';
+import AddNote from './pages/';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit and save to reload.
-        </p>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<AddNote />} />
+    </Routes>
   );
 }
 
