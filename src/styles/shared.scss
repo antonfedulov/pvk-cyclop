@@ -2,7 +2,7 @@ $main-background-color: #252B36;
 $main-text-color: #DCDDDF;
 
 .page {
-  height: 100%;
+  height: calc(100vh - 5rem);
   width: 100%;
   background-color: $main-background-color;
   color: $main-text-color;

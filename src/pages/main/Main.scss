@@ -1,3 +1,18 @@
 .main-page {
-  
+    position: relative;
+  .main-page-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 40%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1rem;
+    box-shadow: 2px 2px 36px 0px rgba(220, 221, 223, 0.1);
+    background-color: #1C212C;
+    border-radius: 1rem;
+  }
 }
