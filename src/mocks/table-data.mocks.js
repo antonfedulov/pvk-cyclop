@@ -11,7 +11,7 @@ export const TableData = [
   {
     mvgNumber: '24 МВГ',
     operationType: 'розхід набоїв',
-    ammoType: '5.45мм',
+    ammoType: '7.62мм',
     spendedAmmoCount: 53410,
     remainderAmmo: 34440,
     createdDate: Date.now(),
@@ -19,7 +19,7 @@ export const TableData = [
   },
   {
     mvgNumber: '56 МВГ',
-    operationType: 'розхід набоїв',
+    operationType: 'прихід набоїв',
     ammoType: '5.45мм',
     spendedAmmoCount: 14440,
     remainderAmmo: 453240,
@@ -38,7 +38,7 @@ export const TableData = [
   {
     mvgNumber: '613 МВГ',
     operationType: 'розхід набоїв',
-    ammoType: '5.45мм',
+    ammoType: '7.62мм',
     spendedAmmoCount: 3232,
     remainderAmmo: 434,
     createdDate: Date.now(),

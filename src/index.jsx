@@ -47,6 +47,42 @@ const theme = createTheme({
           },
         },
       },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          // Зміни стилів для кореневого елемента Chip
+          backgroundColor: '#1976d2',
+          color: '#fff',
+          '& .MuiChip-deleteIcon': {
+            color: '#fff',
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'hsl(220, 23%, 90%)',
+          // Зміни стилів для кореневого елемента OutlinedInput
+          '& fieldset': {
+            borderColor: '#1976d2',
+          },
+          '&:hover fieldset': {
+            borderColor: '#115293',
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: '#0d47a1',
+          },
+        },
+      },
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          margin: '0'
+        },
+      },
     }
   }
 });

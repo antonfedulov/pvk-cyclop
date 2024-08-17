@@ -1,3 +1,15 @@
 .table-page {
-  padding: 2rem;
+  background-color: hsl(220, 23%, 90%);
+  padding: 0 2rem;
+
+  .filter-table-panel {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 2rem 0;
+    &-field {
+      flex: 1;
+    }
+  }
 }
