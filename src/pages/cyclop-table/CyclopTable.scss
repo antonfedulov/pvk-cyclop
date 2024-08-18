@@ -7,9 +7,21 @@
     display: flex;
     justify-content: flex-start;
     gap: 1rem;
-    padding: 2rem 0;
+    padding: 2rem 0 0;
     &-field {
       flex: 1;
+    }
+  }
+  .actions-table-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+
+    .action-btn {
+      &-primary {
+        margin-right: 1rem;
+      }
     }
   }
 }

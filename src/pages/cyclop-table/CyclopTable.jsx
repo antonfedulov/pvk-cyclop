@@ -14,10 +14,13 @@ import {
   ListItemText,
   Select,
   FormControl,
-  InputLabel
+  InputLabel,
+  Button
 } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import React, { useState, useEffect } from 'react';
 import { TableData } from '../../mocks/table-data.mocks';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -150,6 +153,19 @@ export default function CyclopTable() {
             ))}
           </Select>
         </FormControl>
+      </div>
+      <div className='actions-table-panel'>
+        <div className='action-btn'>
+          <Button variant="contained" color="primary" className='action-btn-primary'>
+            Фільтрувати
+          </Button>
+          <Button variant="contained" color="primary" className='action-btn-primary'>
+            Скинути фільтри
+          </Button>
+        </div>
+        <Button variant="contained" color="success" className='excel-btn' endIcon={<AssignmentIcon />}>
+          Завантажити Excel
+        </Button>
       </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

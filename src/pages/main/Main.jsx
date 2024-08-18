@@ -8,10 +8,11 @@ export default function Main() {
 
   const [formData, setFormData] = useState({
     name: '',
-    operationType: 1,
+    operationType: 0,
     ammoType: '',
     ammoCount: NaN,
-    remainingAmmoCount: NaN
+    remainingAmmoCount: NaN,
+    responsiblePerson: ''
   });
 
   const handleChange = (e) => {
@@ -59,6 +60,13 @@ export default function Main() {
           name="remainingAmmoCount"
           type="number"
           value={formData.remainingAmmoCount}
+          onChange={handleChange}
+        />
+        <TextField
+          label="Відповідальна особа"
+          variant="filled"
+          name="responsiblePerson"
+          value={formData.responsiblePerson}
           onChange={handleChange}
         />
         <Button variant="contained" color="primary">Відправити звіт</Button>
