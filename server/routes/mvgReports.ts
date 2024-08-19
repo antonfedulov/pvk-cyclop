@@ -10,12 +10,12 @@ export const mvgReports = new Hono()
       // }
       console.log(formData);
       const newReport = await addReport({
-        Name: formData.Name,
-        OperationType: formData.Name,
-        AmmoType: formData.Name,
-        AmmoCount: +formData.AmmoCount,
-        ResponsiblePerson: formData.Name,
-        RemainingAmmoCount: +formData.RemainingAmmoCount
+        Name: formData['Name'],
+        OperationType: formData['OperationType'],
+        AmmoType: formData['AmmoType'],
+        AmmoCount: +formData['AmmoCount'],
+        ResponsiblePerson: formData['ResponsiblePerson'],
+        RemainingAmmoCount: +formData['RemainingAmmoCount']
       } as ReportData);
       if (newReport) {
         return c.json({ message: 'Report created successfully', isCreated: true, report: newReport }, 201);
