@@ -10,14 +10,19 @@ export const mvgReports = new Hono()
       // if (!Name || !OperationType || !AmmoType || !AmmoCount || !ResponsiblePerson || !RemainingAmmoCount) {
       //   return c.json({ message: 'All fields are required', formData }, 400);
       // }
-
-      const newReport = await addReport({
-        Name,
+      console.log(Name,
         OperationType,
         AmmoType,
         AmmoCount,
         ResponsiblePerson,
-        RemainingAmmoCount
+        RemainingAmmoCount);
+      const newReport = await addReport({
+        Name,
+        OperationType,
+        AmmoType,
+        AmmoCount: +AmmoCount,
+        ResponsiblePerson,
+        RemainingAmmoCount: +RemainingAmmoCount
       } as ReportData);
       if (newReport) {
         return c.json({ message: 'Hero created successfully', isCreated: true, hero: newReport }, 201);
