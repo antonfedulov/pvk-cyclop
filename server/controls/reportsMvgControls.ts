@@ -12,12 +12,12 @@ export interface ReportData {
 export async function addReport(data: ReportData) {
   const transaction = await sequelize.transaction();
   try {
-    const newHero = await MvgReport.create({
+    const newReport = await MvgReport.create({
       ...data
     }, { transaction });
 
     await transaction.commit();
-    return newHero;
+    return newReport;
   } catch (error) {
     await transaction.rollback();
     console.error('Error creating hero:', error);

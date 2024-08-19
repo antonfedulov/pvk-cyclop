@@ -33,7 +33,6 @@ const cors = (options = {}) => {
 const hanoRouter = new Hono();
 
 hanoRouter.use('*', cors());
-
 hanoRouter.route('/reports', mvgReports);
 
 export default hanoRouter;
