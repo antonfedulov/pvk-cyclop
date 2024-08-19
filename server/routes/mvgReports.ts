@@ -18,7 +18,7 @@ export const mvgReports = new Hono()
         RemainingAmmoCount: +formData.RemainingAmmoCount
       } as ReportData);
       if (newReport) {
-        return c.json({ message: 'Hero created successfully', isCreated: true, report: newReport }, 201);
+        return c.json({ message: 'Report created successfully', isCreated: true, report: newReport }, 201);
       } else {
         return c.json({ isCreated: false, report: formData }, 200);
       }
