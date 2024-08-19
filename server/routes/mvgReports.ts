@@ -5,24 +5,17 @@ export const mvgReports = new Hono()
   .post('/create', async (c) => {
     try {
       const formData: any = await c.req.formData();
-      const { Name, OperationType, AmmoType, AmmoCount, RemainingAmmoCount, ResponsiblePerson } = formData;
-
       // if (!Name || !OperationType || !AmmoType || !AmmoCount || !ResponsiblePerson || !RemainingAmmoCount) {
       //   return c.json({ message: 'All fields are required', formData }, 400);
       // }
-      console.log(Name,
-        OperationType,
-        AmmoType,
-        AmmoCount,
-        ResponsiblePerson,
-        RemainingAmmoCount);
+      console.log(formData);
       const newReport = await addReport({
-        Name,
-        OperationType,
-        AmmoType,
-        AmmoCount: +AmmoCount,
-        ResponsiblePerson,
-        RemainingAmmoCount: +RemainingAmmoCount
+        Name: formData.Name,
+        OperationType: formData.Name,
+        AmmoType: formData.Name,
+        AmmoCount: +formData.AmmoCount,
+        ResponsiblePerson: formData.Name,
+        RemainingAmmoCount: +formData.RemainingAmmoCount
       } as ReportData);
       if (newReport) {
         return c.json({ message: 'Hero created successfully', isCreated: true, report: newReport }, 201);
