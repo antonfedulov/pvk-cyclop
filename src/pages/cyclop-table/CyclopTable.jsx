@@ -40,6 +40,25 @@ function getStyles(name, personName, theme) {
   };
 }
 
+function getTableData(
+  Name,
+  OperationType,
+  AmmoType,
+  AmmoCount,
+  ResponsiblePerson,
+  RemainingAmmoCount
+) {
+  return {
+    mvgNumber: Name,
+    operationType: OperationType,
+    ammoType: AmmoType,
+    spendedAmmoCount: +AmmoCount,
+    remainderAmmo: +RemainingAmmoCount,
+    createdDate: Date.now(),
+    responsiblePerson: ResponsiblePerson
+  };
+}
+
 export default function CyclopTable() {
   const theme = useTheme();
   const [selectedMVGs, setSelectedMVGs] = useState([]);
@@ -55,7 +74,8 @@ export default function CyclopTable() {
       try {
         const response = await axios.get(`http://192.168.136.4/api/reports/list`);
         if (response?.data) {
-          setTableData(response?.data);
+          const data = response.data.map(item => getTableData(item));
+          setTableData(data);
         }
       } catch (error) {
         console.error('Error fetching heroes:', error);
