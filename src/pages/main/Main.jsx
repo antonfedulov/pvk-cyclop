@@ -48,7 +48,7 @@ export default function Main() {
     });
   
     if (response.data && response.data.isCreated) {
-      console.log(response);
+      setFormData(initialState);
     }
   };
 
