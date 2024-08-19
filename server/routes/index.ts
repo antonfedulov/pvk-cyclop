@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { mvgReports } from './mvgReports';
 
 const cors = (options = {}) => {
     const defaults = {
@@ -33,7 +34,6 @@ const hanoRouter = new Hono();
 
 hanoRouter.use('*', cors());
 
-// hanoRouter.route('/heroes', heroesRoutes);
-// hanoRouter.route('/admin', adminRoutes);
+hanoRouter.route('/reports', mvgReports);
 
 export default hanoRouter;

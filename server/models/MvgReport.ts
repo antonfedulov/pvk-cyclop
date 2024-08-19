@@ -4,10 +4,11 @@ import { sequelize } from '../config/database';
 class MvgReport extends Model {
   public id!: number;
   public name!: string;
-  public operation_type!: string;
-  public ammo_type!: string;
-  public ammo_count!: number;
-  public responsible_person!: string;
+  public operationType!: string;
+  public ammoType!: string;
+  public ammoCount!: number;
+  public remainingAmmoCount!: number;
+  public responsiblePerson!: string;
 }
 
 MvgReport.init(
@@ -21,19 +22,23 @@ MvgReport.init(
       type: new DataTypes.TEXT,
       allowNull: false,
     },
-    Operation_Type: {
+    OperationType: {
       type: new DataTypes.TEXT,
       allowNull: false
     },
-    Ammo_Type: {
+    AmmoType: {
       type: new DataTypes.TEXT,
       allowNull: false
     },
-    Ammo_Count: {
+    AmmoCount: {
       type: new DataTypes.NUMBER,
       allowNull: false
     },
-    Responsible_Person: {
+    RemainingAmmoCount: {
+      type: new DataTypes.NUMBER,
+      allowNull: false
+    },
+    ResponsiblePerson: {
       type: new DataTypes.TEXT,
       allowNull: false
     }
