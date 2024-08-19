@@ -7,6 +7,7 @@ class MvgReport extends Model {
   public operation_type!: string;
   public ammo_type!: string;
   public ammo_count!: number;
+  public responsible_person!: string;
 }
 
 MvgReport.init(
@@ -32,6 +33,10 @@ MvgReport.init(
       type: new DataTypes.NUMBER,
       allowNull: false
     },
+    Responsible_Person: {
+      type: new DataTypes.TEXT,
+      allowNull: false
+    }
   },
   {
     tableName: 'reports',
