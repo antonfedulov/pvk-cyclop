@@ -37,7 +37,8 @@ export default function Main() {
     formReqData.append('Name', formData.name);
     formReqData.append('OperationType', operationType);
     formReqData.append('AmmoType', formData.ammoType);
-    formReqData.append('AmmoCount', formData.remainingAmmoCount);
+    formReqData.append('AmmoCount', formData.ammoCount);
+    formReqData.append('RemainingAmmoCount', formData.remainingAmmoCount);
     formReqData.append('ResponsiblePerson', formData.responsiblePerson);
   
     const response = await axios.post('http://192.168.136.4/api/reports/create', formReqData, {
