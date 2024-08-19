@@ -17,9 +17,7 @@ import {
   InputLabel,
   Button
 } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 import React, { useState, useEffect } from 'react';
-import { TableData } from '../../mocks/table-data.mocks';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const ITEM_HEIGHT = 48;
@@ -47,21 +45,36 @@ export default function CyclopTable() {
   const [selectedMVGs, setSelectedMVGs] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedAmmoTypes, setSelectedAmmoTypes] = useState([]);
-  const [tableData, setTableData] = useState(TableData);
+  const [tableData, setTableData] = useState([]);
   const [allMVG, setAllMVG] = useState([]);
   const [allTypes, setAllTypes] = useState([]);
   const [ammoTypes, setAmmoTypes] = useState([]);
 
   useEffect(() => {
-    if(TableData?.length) {
-      const mvgNames = [...new Set(TableData.map(item => item.mvgNumber))];
-      const types = [...new Set(TableData.map(item => item.operationType))];
-      const ammoTypes = [...new Set(TableData.map(item => item.ammoType))];
+    const fetchHeroes = async () => {
+      try {
+        const response = await axios.get(`http://192.168.136.4/api/reports/list`);
+        if (response?.data) {
+          setTableData(response?.data);
+        }
+      } catch (error) {
+        console.error('Error fetching heroes:', error);
+      }
+    };
+
+    fetchHeroes();
+  }, []);
+
+  useEffect(() => {
+    if(tableData?.length) {
+      const mvgNames = [...new Set(tableData.map(item => item.mvgNumber))];
+      const types = [...new Set(tableData.map(item => item.operationType))];
+      const ammoTypes = [...new Set(tableData.map(item => item.ammoType))];
       setAllMVG(mvgNames);
       setAllTypes(types);
       setAmmoTypes(ammoTypes);
     }
-  }, [TableData])
+  }, [tableData]);
 
   const handleChange = (event) => {
     const { target: { value, name } } = event;

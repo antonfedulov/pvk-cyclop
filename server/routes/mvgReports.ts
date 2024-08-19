@@ -1,8 +1,18 @@
 import { Hono } from 'hono';
-import { addReport, type ReportData } from '../controls/reportsMvgControls';
+import { addReport, getReports, type ReportData } from '../controls/reportsMvgControls';
 import { parseFormData } from '.';
 
 export const mvgReports = new Hono()
+  .get('/list', async (c) => {
+    try {
+      const reports: ReportData[] = await getReports();
+      return c.json(reports);
+
+    } catch (error) {
+      console.error('Error fetching reports:', error);
+      return c.json({ message: 'Internal server error' }, 500);
+    }
+  })
   .post('/create', async (c) => {
     try {
       const { fields } = await parseFormData(c.req);

@@ -26,3 +26,17 @@ export async function addReport(data: ReportData) {
     return null;
   }
 }
+
+export async function getReports(): Promise<ReportData[]> {
+  try {
+    const reports = await MvgReport.findAll();
+    
+    if (!reports) {
+      return [] as ReportData[];
+    }
+    return !!reports && reports !== null ? reports : [] as ReportData[];
+  } catch (error) {
+    console.error('Error not found hero:', error);
+    return [] as ReportData[];
+  }
+}
