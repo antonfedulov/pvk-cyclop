@@ -36,11 +36,11 @@ export default function Main() {
     const formReqData = new FormData();
     formReqData.append('Name', formData.name);
     formReqData.append('OperationType', operationType);
-    formReqData.append('AmmoType', formData.Reward);
-    formReqData.append('AmmoCount', formData.Position);
-    formReqData.append('ResponsiblePerson', formData.Photo);
+    formReqData.append('AmmoType', formData.ammoType);
+    formReqData.append('AmmoCount', formData.remainingAmmoCount);
+    formReqData.append('ResponsiblePerson', formData.responsiblePerson);
   
-    const response = await axios.post('http://192.168.136.4/api/create', formReqData, {
+    const response = await axios.post('http://192.168.136.4/api/reports/create', formReqData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -67,8 +67,6 @@ export default function Main() {
           value={formData.operationType}
           onChange={handleChange}
         >
-          <MenuItem value={1}>розхід набоїв</MenuItem>
-          <MenuItem value={2}>прихід набоїв</MenuItem>
           {
             operationTypes.length && operationTypes.map(type => (<MenuItem key={type.value} value={type.value}>{type.option}</MenuItem>))
           }
