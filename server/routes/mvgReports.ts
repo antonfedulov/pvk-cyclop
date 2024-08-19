@@ -25,9 +25,9 @@ export const mvgReports = new Hono()
         RemainingAmmoCount: +RemainingAmmoCount
       } as ReportData);
       if (newReport) {
-        return c.json({ message: 'Hero created successfully', isCreated: true, hero: newReport }, 201);
+        return c.json({ message: 'Hero created successfully', isCreated: true, report: newReport }, 201);
       } else {
-        return c.json({ isCreated: false }, 200);
+        return c.json({ isCreated: false, report: formData }, 200);
       }
     } catch (error) {
       console.error('Error fetching report:', error);
