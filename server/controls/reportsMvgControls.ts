@@ -6,7 +6,8 @@ export interface ReportData {
   OperationType: string,
   AmmoType: string,
   AmmoCount: number,
-  ResponsiblePerson: string
+  ResponsiblePerson: string,
+  RemainingAmmoCount: number
 }
 
 export async function addReport(data: ReportData) {

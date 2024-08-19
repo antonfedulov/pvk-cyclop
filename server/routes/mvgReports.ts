@@ -5,10 +5,10 @@ export const mvgReports = new Hono()
   .post('/create', async (c) => {
     try {
       const formData: any = await c.req.formData();
-      const { Name, OperationType, AmmoType, AmmoCount, ResponsiblePerson } = formData;
+      const { Name, OperationType, AmmoType, AmmoCount, RemainingAmmoCount, ResponsiblePerson } = formData;
 
-      if (!Name || !OperationType || !AmmoType || !AmmoCount || !ResponsiblePerson) {
-        return c.json({ message: 'All fields are required' }, 400);
+      if (!Name || !OperationType || !AmmoType || !AmmoCount || !ResponsiblePerson || !RemainingAmmoCount) {
+        return c.json({ message: 'All fields are required', formData }, 400);
       }
 
       const newReport = await addReport({
@@ -16,7 +16,8 @@ export const mvgReports = new Hono()
         OperationType,
         AmmoType,
         AmmoCount,
-        ResponsiblePerson
+        ResponsiblePerson,
+        RemainingAmmoCount
       } as ReportData);
       if (newReport) {
         return c.json({ message: 'Hero created successfully', isCreated: true, hero: newReport }, 201);
