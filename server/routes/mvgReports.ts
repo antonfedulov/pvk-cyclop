@@ -7,9 +7,9 @@ export const mvgReports = new Hono()
       const formData: any = await c.req.formData();
       const { Name, OperationType, AmmoType, AmmoCount, RemainingAmmoCount, ResponsiblePerson } = formData;
 
-      if (!Name || !OperationType || !AmmoType || !AmmoCount || !ResponsiblePerson || !RemainingAmmoCount) {
-        return c.json({ message: 'All fields are required', formData }, 400);
-      }
+      // if (!Name || !OperationType || !AmmoType || !AmmoCount || !ResponsiblePerson || !RemainingAmmoCount) {
+      //   return c.json({ message: 'All fields are required', formData }, 400);
+      // }
 
       const newReport = await addReport({
         Name,
