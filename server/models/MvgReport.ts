@@ -31,12 +31,10 @@ MvgReport.init(
       allowNull: false
     },
     AmmoCount: {
-      type: new DataTypes.INTEGER,
-      allowNull: false
+      type: new DataTypes.INTEGER
     },
     RemainingAmmoCount: {
-      type: new DataTypes.INTEGER,
-      allowNull: false
+      type: new DataTypes.INTEGER
     },
     ResponsiblePerson: {
       type: new DataTypes.TEXT,
