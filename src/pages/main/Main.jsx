@@ -1,5 +1,5 @@
 import './Main.scss';
-import {TextField, Button, Select, MenuItem} from '@mui/material';
+import { TextField, Button, Select, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import axios from 'axios';
 

@@ -71,15 +71,15 @@ function getTableData({
 }
 
 export default function CyclopTable() {
-  const fetchHeroes = async () => {
+  const fetchHeroes = async (clear) => {
     try {
       const params = {
         Name: selectedMVGs.join(','),
         OperationType: selectedTypes.join(','),
         ResponsiblePerson: selectedAmmoTypes.join(',')
       };
-
-      const response = await axios.get(`http://192.168.136.4/api/reports/list`, { params });
+      const paramsData = !clear ? { params } : {}
+      const response = await axios.get(`http://192.168.136.4/api/reports/list`, paramsData);
       if (response?.data) {
         const data = response.data.map(item => getTableData(item));
         setTableData(data);
@@ -115,6 +115,10 @@ export default function CyclopTable() {
 
   const filtrClickHandler = () => {
     fetchHeroes();
+  }
+
+  const clearFilterHandler = () => {
+    fetchHeroes(true);
   }
 
   const handleChange = (event) => {
