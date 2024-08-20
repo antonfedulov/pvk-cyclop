@@ -36,7 +36,7 @@ export async function getReports(filters: {
   try {
     const { Name, OperationType, ResponsiblePerson } = filters;
     const whereClause: any = {};
-    console.log(Name, OperationType, ResponsiblePerson)
+
     if (Name?.length) {
       whereClause.Name = { [Op.in]: Name };
     }
@@ -46,7 +46,7 @@ export async function getReports(filters: {
     if (ResponsiblePerson?.length) {
       whereClause.ResponsiblePerson = { [Op.in]: ResponsiblePerson };
     }
-    console.log(whereClause)
+   
     const reports = await MvgReport.findAll({
       where: whereClause,
     });
