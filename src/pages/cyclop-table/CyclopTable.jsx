@@ -118,7 +118,12 @@ export default function CyclopTable() {
   }
 
   const clearFilterHandler = () => {
-    fetchHeroes(true);
+    if (selectedMVGs.length || selectedTypes.length || selectedAmmoTypes.length) {
+      setSelectedMVGs([]);
+      setSelectedTypes([]);
+      setSelectedAmmoTypes([]);
+      fetchHeroes(true);
+    }
   }
 
   const handleChange = (event) => {
@@ -217,11 +222,11 @@ export default function CyclopTable() {
           <Button variant="contained" color="primary" className='action-btn-primary' onClick={filtrClickHandler}>
             Фільтрувати
           </Button>
-          <Button variant="contained" color="primary" className='action-btn-primary'>
+          <Button variant="contained" color="primary" className='action-btn-primary' onClick={clearFilterHandler}>
             Скинути фільтри
           </Button>
         </div>
-        <Button variant="contained" color="success" className='excel-btn' endIcon={<AssignmentIcon />} onClick={clearFilterHandler}>
+        <Button variant="contained" color="success" className='excel-btn' endIcon={<AssignmentIcon />}>
           Завантажити Excel
         </Button>
       </div>
