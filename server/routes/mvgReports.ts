@@ -5,12 +5,12 @@ import { parseFormData } from '.';
 export const mvgReports = new Hono()
   .get('/list', async (c) => {
     try {
-      const test = c.req.query()
+
       const Name = c.req.query('Name')?.split(',') || [];
       const OperationType = c.req.query('OperationType')?.split(',') || [];
-      const ResponsiblePerson = c.req.query('ResponsiblePerson')?.split(',') || [];
-      console.log(test, Name)
-      const reports: ReportData[] = await getReports({ Name, OperationType, ResponsiblePerson });
+      const AmmoType = c.req.query('AmmoType')?.split(',') || [];
+
+      const reports: ReportData[] = await getReports({ Name, OperationType, AmmoType });
       return c.json(reports);
 
     } catch (error) {

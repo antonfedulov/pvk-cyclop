@@ -31,10 +31,10 @@ export async function addReport(data: ReportData) {
 export async function getReports(filters: {
   Name?: string[];
   OperationType?: string[];
-  ResponsiblePerson?: string[];
+  AmmoType?: string[];
 }): Promise<ReportData[]> {
   try {
-    const { Name, OperationType, ResponsiblePerson } = filters;
+    const { Name, OperationType, AmmoType } = filters;
     const whereClause: any = {};
 
     if (Name && Name.length > 0 && Name.some(name => name.trim() !== "")) {
@@ -43,10 +43,9 @@ export async function getReports(filters: {
     if (OperationType && OperationType.length > 0 && OperationType.some(type => type.trim() !== "")) {
       whereClause.OperationType = { [Op.in]: OperationType.filter(type => type.trim() !== "") };
     }
-    if (ResponsiblePerson && ResponsiblePerson.length > 0 && ResponsiblePerson.some(person => person.trim() !== "")) {
-      whereClause.ResponsiblePerson = { [Op.in]: ResponsiblePerson.filter(person => person.trim() !== "") };
+    if (AmmoType && AmmoType.length > 0 && AmmoType.some(item => item.trim() !== "")) {
+      whereClause.AmmoType = { [Op.in]: AmmoType.filter(item => item.trim() !== "") };
     }
-   console.log(whereClause)
     const reports = await MvgReport.findAll({
       where: whereClause,
     });
