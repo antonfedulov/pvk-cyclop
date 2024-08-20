@@ -46,11 +46,10 @@ export async function getReports(filters: {
     if (ResponsiblePerson?.length) {
       whereClause.ResponsiblePerson = { [Op.in]: ResponsiblePerson };
     }
-
+    console.log(whereClause)
     const reports = await MvgReport.findAll({
       where: whereClause,
     });
-    console.log(reports)
     if (!reports) {
       return [] as ReportData[];
     }
