@@ -5,7 +5,11 @@ import { parseFormData } from '.';
 export const mvgReports = new Hono()
   .get('/list', async (c) => {
     try {
-      const reports: ReportData[] = await getReports();
+      const Name = c.req.query('Name')?.split(',') || [];
+      const OperationType = c.req.query('OperationType')?.split(',') || [];
+      const ResponsiblePerson = c.req.query('ResponsiblePerson')?.split(',') || [];
+
+      const reports: ReportData[] = await getReports({ Name, OperationType, ResponsiblePerson });
       return c.json(reports);
 
     } catch (error) {

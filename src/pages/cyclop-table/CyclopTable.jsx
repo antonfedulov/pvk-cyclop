@@ -71,6 +71,24 @@ function getTableData({
 }
 
 export default function CyclopTable() {
+  const fetchHeroes = async () => {
+    try {
+      const params = {
+        Name: selectedMVGs,
+        OperationType: selectedTypes,
+        ResponsiblePerson: selectedAmmoTypes
+      };
+
+      const response = await axios.get(`http://192.168.136.4/api/reports/list`, { params });
+      if (response?.data) {
+        const data = response.data.map(item => getTableData(item));
+        setTableData(data);
+      }
+    } catch (error) {
+      console.error('Error fetching heroes:', error);
+    }
+  };
+
   const theme = useTheme();
   const [selectedMVGs, setSelectedMVGs] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
@@ -81,18 +99,6 @@ export default function CyclopTable() {
   const [ammoTypes, setAmmoTypes] = useState([]);
 
   useEffect(() => {
-    const fetchHeroes = async () => {
-      try {
-        const response = await axios.get(`http://192.168.136.4/api/reports/list`);
-        if (response?.data) {
-          const data = response.data.map(item => getTableData(item));
-          setTableData(data);
-        }
-      } catch (error) {
-        console.error('Error fetching heroes:', error);
-      }
-    };
-
     fetchHeroes();
   }, []);
 
@@ -106,6 +112,10 @@ export default function CyclopTable() {
       setAmmoTypes(ammoTypes);
     }
   }, [tableData]);
+
+  const filtrClickHandler = () => {
+    fetchHeroes();
+  }
 
   const handleChange = (event) => {
     const { target: { value, name } } = event;
@@ -200,7 +210,7 @@ export default function CyclopTable() {
       </div>
       <div className='actions-table-panel'>
         <div className='action-btn'>
-          <Button variant="contained" color="primary" className='action-btn-primary'>
+          <Button variant="contained" color="primary" className='action-btn-primary' onClick={filtrClickHandler}>
             Фільтрувати
           </Button>
           <Button variant="contained" color="primary" className='action-btn-primary'>

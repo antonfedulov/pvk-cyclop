@@ -27,9 +27,28 @@ export async function addReport(data: ReportData) {
   }
 }
 
-export async function getReports(): Promise<ReportData[]> {
+export async function getReports(filters: {
+  Name?: string[];
+  OperationType?: string[];
+  ResponsiblePerson?: string[];
+}): Promise<ReportData[]> {
   try {
-    const reports = await MvgReport.findAll();
+    const { Name, OperationType, ResponsiblePerson } = filters;
+    const whereClause: any = {};
+
+    if (Name?.length) {
+      whereClause.Name = Name;
+    }
+    if (OperationType?.length) {
+      whereClause.OperationType = OperationType;
+    }
+    if (ResponsiblePerson?.length) {
+      whereClause.ResponsiblePerson = ResponsiblePerson;
+    }
+
+    const reports = await MvgReport.findAll({
+      where: whereClause,
+    });
     
     if (!reports) {
       return [] as ReportData[];
