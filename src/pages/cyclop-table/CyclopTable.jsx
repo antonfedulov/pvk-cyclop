@@ -74,9 +74,9 @@ export default function CyclopTable() {
   const fetchHeroes = async () => {
     try {
       const params = {
-        Name: selectedMVGs,
-        OperationType: selectedTypes,
-        ResponsiblePerson: selectedAmmoTypes
+        Name: selectedMVGs.join(','),
+        OperationType: selectedTypes.join(','),
+        ResponsiblePerson: selectedAmmoTypes.join(',')
       };
 
       const response = await axios.get(`http://192.168.136.4/api/reports/list`, { params });
