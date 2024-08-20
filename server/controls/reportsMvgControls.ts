@@ -1,5 +1,6 @@
 import MvgReport from '../models/MvgReport';
 import { sequelize } from '../config/database';
+import { Op } from 'sequelize';
 
 export interface ReportData {
   Name: string,
@@ -37,13 +38,13 @@ export async function getReports(filters: {
     const whereClause: any = {};
 
     if (Name?.length) {
-      whereClause.Name = Name;
+      whereClause.Name = { [Op.in]: Name };
     }
     if (OperationType?.length) {
-      whereClause.OperationType = OperationType;
+      whereClause.OperationType = { [Op.in]: OperationType };
     }
     if (ResponsiblePerson?.length) {
-      whereClause.ResponsiblePerson = ResponsiblePerson;
+      whereClause.ResponsiblePerson = { [Op.in]: ResponsiblePerson };
     }
 
     const reports = await MvgReport.findAll({
