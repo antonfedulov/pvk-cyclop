@@ -221,7 +221,7 @@ export default function CyclopTable() {
             Скинути фільтри
           </Button>
         </div>
-        <Button variant="contained" color="success" className='excel-btn' endIcon={<AssignmentIcon />}>
+        <Button variant="contained" color="success" className='excel-btn' endIcon={<AssignmentIcon />} onClick={clearFilterHandler}>
           Завантажити Excel
         </Button>
       </div>
