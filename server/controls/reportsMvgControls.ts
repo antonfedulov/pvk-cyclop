@@ -37,13 +37,13 @@ export async function getReports(filters: {
     const { Name, OperationType, ResponsiblePerson } = filters;
     const whereClause: any = {};
 
-    if (Name?.length) {
+    if (Name && Name.length > 0 && Name.some(name => name.trim() !== "") {
       whereClause.Name = { [Op.in]: Name };
     }
-    if (OperationType?.length) {
+    if (OperationType && OperationType.length > 0 && OperationType.some(type => type.trim() !== "")) {
       whereClause.OperationType = { [Op.in]: OperationType };
     }
-    if (ResponsiblePerson?.length) {
+    if (ResponsiblePerson && ResponsiblePerson.length > 0 && ResponsiblePerson.some(person => person.trim() !== "")) {
       whereClause.ResponsiblePerson = { [Op.in]: ResponsiblePerson };
     }
    console.log(whereClause)
