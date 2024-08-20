@@ -1,5 +1,5 @@
 import './Main.scss';
-import { TextField, Button, Select, MenuItem } from '@mui/material';
+import { TextField, Button, Select, MenuItem, Snackbar } from '@mui/material';
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -14,6 +14,22 @@ export default function Main() {
   };
   const [isDisabled, setDisabled] = useState(true)
   const [formData, setFormData] = useState(initialState);
+
+  const [state, setState] = useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleSnackBarState = () => {
+    const newState = { vertical: 'bottom', horizontal: 'center' };
+    setState({ ...newState, open: true });
+  };
+
+  const handleCloseSnackBar = () => {
+    setState({ ...state, open: false });
+  };
 
   const operationTypes = [
     { value: 1, option: 'розхід набоїв' },
@@ -48,11 +64,14 @@ export default function Main() {
     });
   
     if (response.data && response.data.isCreated) {
+      handleSnackBarState({ vertical: 'bottom', horizontal: 'center' });
+      setDisabled(true);
       setFormData(initialState);
     }
   };
 
   return (
+    <>
     <div className='main-page page'>
       <div className='main-page-form'>
         <TextField
@@ -104,7 +123,14 @@ export default function Main() {
         />
         <Button variant="contained" color="primary" onClick={handleSubmit} disabled={isDisabled}>Відправити звіт</Button>
       </div>
-      
     </div>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleCloseSnackBar}
+        message="Звіт додано до бази даних"
+        key={vertical + horizontal}
+      />
+    </>
   );
 };

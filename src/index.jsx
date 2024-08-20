@@ -15,7 +15,7 @@ const theme = createTheme({
       main: '#dc004e',
     },
     background: {
-      default: '#dc004e',
+      default: '#263756',
     },
     text: {
       primary: '#1C212C',
@@ -83,7 +83,16 @@ const theme = createTheme({
           margin: '0'
         },
       },
-    }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            backgroundColor: '#CACA63',
+          },
+        },
+      },
+    },
   }
 });
 
