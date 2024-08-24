@@ -18,10 +18,10 @@ import {
   Button
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/uk';
+import ExportExcel from '../../containers/export-excel/ExportExcel';
 
 moment.locale('uk');
 
@@ -70,6 +70,28 @@ function getTableData({
   };
 }
 
+function getExcelData({
+  order,
+  mvgNumber,
+  operationType,
+  ammoType,
+  spendedAmmoCount,
+  remainderAmmo,
+  createdDate,
+  responsiblePerson
+}) {
+  return {
+    'номер за порядком': order,
+    'номер мвг': mvgNumber,
+    'тип операції': operationType,
+    'тип набоїв': ammoType,
+    'кількість витрачених набоїв': spendedAmmoCount,
+    'залишок набоїв': remainderAmmo,
+    'дата створення запису': createdDate,
+    'відповідальна особа': responsiblePerson
+  };
+}
+
 export default function CyclopTable() {
   const fetchHeroes = async (clear) => {
     try {
@@ -81,8 +103,11 @@ export default function CyclopTable() {
       const paramsData = !clear ? { params } : {}
       const response = await axios.get(`http://192.168.136.4/api/reports/list`, paramsData);
       if (response?.data) {
+        response.data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         const data = response.data.map(item => getTableData(item));
+        const excelData = data.map((item, id) => getExcelData({ order: id + 1, ...item }));
         setTableData(data);
+        setExcelData(excelData);
       }
     } catch (error) {
       console.error('Error fetching heroes:', error);
@@ -97,7 +122,8 @@ export default function CyclopTable() {
   const [allMVG, setAllMVG] = useState([]);
   const [allTypes, setAllTypes] = useState([]);
   const [ammoTypes, setAmmoTypes] = useState([]);
-
+  const [excelData, setExcelData] = useState([]);
+  
   useEffect(() => {
     fetchHeroes();
   }, []);
@@ -226,9 +252,7 @@ export default function CyclopTable() {
             Скинути фільтри
           </Button>
         </div>
-        <Button variant="contained" color="success" className='excel-btn' endIcon={<AssignmentIcon />}>
-          Завантажити Excel
-        </Button>
+        <ExportExcel excelData={excelData} fileName={'МВГ_Репорти'} />
       </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
