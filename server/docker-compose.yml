@@ -1,0 +1,18 @@
+services:
+  pvk-cyclop:
+    build: .
+    container_name: pvk-cyclop
+    restart: unless-stopped
+
+    ports:
+      - "3002:3000"
+
+    environment:
+      DB_HOST: host.docker.internal
+      DB_PORT: 3306
+      DB_NAME: cyclope_db
+      DB_USER: cyclop
+      DB_PASSWORD: cyclop123
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
