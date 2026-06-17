@@ -12,10 +12,10 @@ const startServer = async () => {
 
     serve({
         fetch: honoRouter.fetch,
-        port: 3000,
+        port: 3002,
     });
 
-    console.log('Server is running on port 3000');
+    console.log('Server is running on port 3002');
   } catch (err) {
     console.error('Unable to connect to the database:', err);
   }

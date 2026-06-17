@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["bun", "run"]
+CMD ["bun", "run", "start"]
