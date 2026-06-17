@@ -51,54 +51,61 @@ function getStyles(name, personName, theme) {
 
 function getTableData({
   Name,
+  UnitCode,
+  WeaponType,
+  TargetNumber,
+  TargetDestroyed,
+  EngagementAt,
   OperationType,
-  AmmoType,
-  AmmoCount,
-  ResponsiblePerson,
-  RemainingAmmoCount,
-  createdAt
+  MvgMovement,
+  MvgLeader
 }) {
-
   return {
-    mvgNumber: Name,
+    mvgName: Name,
+    unitCode: UnitCode,
+    weaponType: WeaponType,
+    targetNumber: TargetNumber,
+    targetDestroyed: TargetDestroyed ? 'Уражена' : 'Не уражена',
+    engagementAt: formatDate(EngagementAt),
     operationType: OperationType,
-    ammoType: AmmoType,
-    spendedAmmoCount: +AmmoCount,
-    remainderAmmo: +RemainingAmmoCount,
-    createdDate: formatDate(createdAt),
-    responsiblePerson: ResponsiblePerson
+    mvgMovement: MvgMovement || '',
+    mvgLeader: MvgLeader
   };
 }
 
 function getExcelData({
   order,
-  mvgNumber,
+  mvgName,
+  unitCode,
+  weaponType,
+  targetNumber,
+  targetDestroyed,
+  engagementAt,
   operationType,
-  ammoType,
-  spendedAmmoCount,
-  remainderAmmo,
-  createdDate,
-  responsiblePerson
+  mvgMovement,
+  mvgLeader
 }) {
   return {
-    'номер за порядком': order,
-    'номер мвг': mvgNumber,
-    'тип операції': operationType,
-    'тип набоїв': ammoType,
-    'кількість витрачених набоїв': spendedAmmoCount,
-    'залишок набоїв': remainderAmmo,
-    'дата створення запису': createdDate,
-    'відповідальна особа': responsiblePerson
+    '№': order,
+    'Назва МВГ': mvgName,
+    '№ в/ч': unitCode,
+    'Озброєння': weaponType,
+    'Номер цілі': targetNumber,
+    'Результат': targetDestroyed,
+    'Дата та час': engagementAt,
+    'Тип застосування': operationType,
+    'Переміщення МВГ': mvgMovement,
+    'Старший МВГ': mvgLeader
   };
 }
 
 export default function CyclopTable() {
-  const fetchHeroes = async (clear) => {
+  const fetchReports = async (clear) => {
     try {
       const params = {
         Name: selectedMVGs.join(','),
         OperationType: selectedTypes.join(','),
-        AmmoType: selectedAmmoTypes.join(',')
+        WeaponType: selectedWeapons.join(',')
       };
       const paramsData = !clear ? { params } : {}
       const response = await axios.get(`https://cyclop.medical-tech.com.ua/api/reports/list`, paramsData);
@@ -117,38 +124,38 @@ export default function CyclopTable() {
   const theme = useTheme();
   const [selectedMVGs, setSelectedMVGs] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
-  const [selectedAmmoTypes, setSelectedAmmoTypes] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [allMVG, setAllMVG] = useState([]);
   const [allTypes, setAllTypes] = useState([]);
-  const [ammoTypes, setAmmoTypes] = useState([]);
   const [excelData, setExcelData] = useState([]);
+  const [selectedWeapons, setSelectedWeapons] = useState([]);
+  const [allWeapons, setAllWeapons] = useState([]);
   
   useEffect(() => {
-    fetchHeroes();
+    fetchReports();
   }, []);
 
   useEffect(() => {
     if(tableData?.length) {
-      const mvgNames = [...new Set(tableData.map(item => item.mvgNumber))];
+      const mvgNames = [...new Set(tableData.map(item => item.mvgName))];
       const types = [...new Set(tableData.map(item => item.operationType))];
-      const ammoTypes = [...new Set(tableData.map(item => item.ammoType))];
+      const weapons = [...new Set(tableData.map(item => item.weaponType))];
       setAllMVG(mvgNames);
       setAllTypes(types);
-      setAmmoTypes(ammoTypes);
+      setAllWeapons(weapons);
     }
   }, [tableData]);
 
   const filtrClickHandler = () => {
-    fetchHeroes();
+    fetchReports();
   }
 
   const clearFilterHandler = () => {
-    if (selectedMVGs.length || selectedTypes.length || selectedAmmoTypes.length) {
+    if (selectedMVGs.length || selectedTypes.length || selectedWeapons.length) {
       setSelectedMVGs([]);
       setSelectedTypes([]);
-      setSelectedAmmoTypes([]);
-      fetchHeroes(true);
+      setSelectedWeapons([]);
+      fetchReports(true);
     }
   }
 
@@ -162,22 +169,26 @@ export default function CyclopTable() {
       case name === 'type':
         setSelectedTypes(typeof value === 'string' ? value.split(',') : value);
         break;
-      case name === 'ammotype':
-        setSelectedAmmoTypes(typeof value === 'string' ? value.split(',') : value);
+      case name === 'weapon':
+        setSelectedWeapons(
+          typeof value === 'string' ? value.split(',') : value
+        );
         break;
     }
   };
 
-  const headerMap = {						
-    order: 'номер за порядком',
-    mvgNumber: 'номер МВГ',
-    operationType: 'тип операції',
-    ammoType: 'тип набоїв',
-    spendedAmmoCount: 'кількість витрачених набоїв',
-    remainderAmmo: 'залишок набоїв',
-    createdDate: 'дата створення запису',
-    responsiblePerson: 'відповідальна особа'
-  }
+  const headerMap = {
+    order: '№',
+    mvgName: 'Назва МВГ',
+    unitCode: '№ в/ч',
+    weaponType: 'Озброєння',
+    targetNumber: 'Номер цілі',
+    targetDestroyed: 'Результат',
+    engagementAt: 'Дата та час',
+    operationType: 'Тип застосування',
+    mvgMovement: 'Переміщення МВГ',
+    mvgLeader: 'Старший МВГ'
+  };
 
   return (
     <div className='table-page page'>
@@ -223,20 +234,20 @@ export default function CyclopTable() {
           </Select>
         </FormControl>
         <FormControl className='filter-table-panel-field'>
-          <InputLabel id="multiple-ammotype-label">Фільтрувати по типу боєприпасів</InputLabel>
+          <InputLabel id="multiple-weapon-label">Фільтрувати по озброєнню</InputLabel>
           <Select
             multiple
-            labelId="multiple-ammotype-label"
-            name="ammotype"
-            value={selectedAmmoTypes}
+            labelId="multiple-weapon-label"
+            name="weapon"
+            value={selectedWeapons}
             onChange={handleChange}
             input={<OutlinedInput label="Фільтрувати по типу боєприпасів" />}
             renderValue={(selected) => selected.join(', ')}
             MenuProps={MenuProps}
           >
-            {(ammoTypes && ammoTypes.length) && ammoTypes.map((name) => (
-              <MenuItem key={name} value={name} style={getStyles(name, selectedAmmoTypes, theme)}>
-                <Checkbox checked={selectedAmmoTypes.indexOf(name) > -1} />
+            {(allWeapons && allWeapons.length) && allWeapons.map((name) => (
+              <MenuItem key={name} value={name} style={getStyles(name, selectedWeapons, theme)}>
+                <Checkbox checked={selectedWeapons.indexOf(name) > -1} />
                 <ListItemText primary={name} />
               </MenuItem>
             ))}
