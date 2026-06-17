@@ -3,12 +3,15 @@ import { sequelize } from '../config/database';
 import { Op } from 'sequelize';
 
 export interface ReportData {
-  Name: string,
-  OperationType: string,
-  AmmoType: string,
-  AmmoCount: number,
-  ResponsiblePerson: string,
-  RemainingAmmoCount: number
+  Name: string;
+  UnitCode: string;
+  WeaponType: string;
+  TargetNumber: string;
+  TargetDestroyed: boolean;
+  EngagementAt: Date | string;
+  OperationType: string;
+  MvgMovement: string;
+  MvgLeader: string;
 }
 
 export async function addReport(data: ReportData) {
@@ -30,11 +33,17 @@ export async function addReport(data: ReportData) {
 
 export async function getReports(filters: {
   Name?: string[];
+  UnitCode?: string[];
+  WeaponType?: string[];
   OperationType?: string[];
-  AmmoType?: string[];
 }): Promise<ReportData[]> {
   try {
-    const { Name, OperationType, AmmoType } = filters;
+    const {
+      Name,
+      UnitCode,
+      WeaponType,
+      OperationType
+    } = filters;
     const whereClause: any = {};
 
     if (Name && Name.length > 0 && Name.some(name => name.trim() !== "")) {
@@ -43,12 +52,30 @@ export async function getReports(filters: {
     if (OperationType && OperationType.length > 0 && OperationType.some(type => type.trim() !== "")) {
       whereClause.OperationType = { [Op.in]: OperationType.filter(type => type.trim() !== "") };
     }
-    if (AmmoType && AmmoType.length > 0 && AmmoType.some(item => item.trim() !== "")) {
-      whereClause.AmmoType = { [Op.in]: AmmoType.filter(item => item.trim() !== "") };
+    if (
+      UnitCode &&
+      UnitCode.length > 0 &&
+      UnitCode.some(item => item.trim() !== '')
+    ) {
+      whereClause.UnitCode = {
+        [Op.in]: UnitCode.filter(item => item.trim() !== '')
+      };
+    }
+
+    if (
+      WeaponType &&
+      WeaponType.length > 0 &&
+      WeaponType.some(item => item.trim() !== '')
+    ) {
+      whereClause.WeaponType = {
+        [Op.in]: WeaponType.filter(item => item.trim() !== '')
+      };
     }
     const reports = await MvgReport.findAll({
       where: whereClause,
+      order: [['EngagementAt', 'DESC']]
     });
+    
     if (!reports) {
       return [] as ReportData[];
     }

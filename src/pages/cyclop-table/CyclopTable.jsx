@@ -101,7 +101,7 @@ export default function CyclopTable() {
         AmmoType: selectedAmmoTypes.join(',')
       };
       const paramsData = !clear ? { params } : {}
-      const response = await axios.get(`http://192.168.136.4/api/reports/list`, paramsData);
+      const response = await axios.get(`https://cyclop.medical-tech.com.ua/api/reports/list`, paramsData);
       if (response?.data) {
         response.data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         const data = response.data.map(item => getTableData(item));

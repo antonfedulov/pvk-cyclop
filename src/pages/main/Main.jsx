@@ -1,19 +1,31 @@
 import './Main.scss';
-import { TextField, Button, Select, MenuItem, Snackbar } from '@mui/material';
+import { TextField, Button, Select, MenuItem, Snackbar, Switch, FormControlLabel } from '@mui/material';
 import React, { useState } from 'react';
 import axios from 'axios';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
+import 'dayjs/locale/uk';
 
 export default function Main() {
+  dayjs.locale('uk');
+
   const initialState = {
     name: '',
-    operationType: 0,
-    ammoType: '',
-    ammoCount: 0,
-    remainingAmmoCount: 0,
-    responsiblePerson: ''
+    unitCode: '',
+    weaponType: '',
+    targetNumber: '',
+    targetDestroyed: false,
+    engagementAt: '',
+    operationType: 1,
+    mvgMovement: '',
+    mvgLeader: ''
   };
+
   const [isDisabled, setDisabled] = useState(true)
   const [formData, setFormData] = useState(initialState);
+  const [engagementAt, setEngagementAt] = useState(dayjs());
 
   const [state, setState] = useState({
     open: false,
@@ -32,15 +44,22 @@ export default function Main() {
   };
 
   const operationTypes = [
-    { value: 1, option: 'розхід набоїв' },
-    { value: 2, option: 'прихід набоїв' },
+    { value: 1, option: 'розхід боєприпасів' }
   ]
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, checked } = e.target;
+    let currentValue = name === 'targetDestroyed' ? checked : value
 
-    if (!!formData.name && !!formData.operationType && !!formData.ammoType && !!formData.ammoCount && !!formData.remainingAmmoCount && !!formData.responsiblePerson) {
+    setFormData({ ...formData, [name]: currentValue });
+
+    if (
+          !!formData.name
+      &&  !!formData.weaponType
+      &&  !!formData.targetNumber
+      &&  !!formData.unitCode
+      &&  !!formData.mvgLeader
+    ) {
       setDisabled(false);
     } else {
       setDisabled(true);
@@ -50,14 +69,18 @@ export default function Main() {
   const handleSubmit = async () => {
     const operationType = operationTypes.find(type => type.value === +formData.operationType)?.option;
     const formReqData = new FormData();
+
     formReqData.append('Name', formData.name);
+    formReqData.append('UnitCode', formData.unitCode);
+    formReqData.append('WeaponType', formData.weaponType);
+    formReqData.append('TargetNumber', formData.targetNumber);
+    formReqData.append('TargetDestroyed', formData.targetDestroyed);
+    formReqData.append('EngagementAt', engagementAt);
     formReqData.append('OperationType', operationType);
-    formReqData.append('AmmoType', formData.ammoType);
-    formReqData.append('AmmoCount', formData.ammoCount);
-    formReqData.append('RemainingAmmoCount', formData.remainingAmmoCount);
-    formReqData.append('ResponsiblePerson', formData.responsiblePerson);
+    formReqData.append('MvgMovement', formData.mvgMovement);
+    formReqData.append('MvgLeader', formData.mvgLeader);
   
-    const response = await axios.post('http://192.168.136.4/api/reports/create', formReqData, {
+    const response = await axios.post('https://cyclop.medical-tech.com.ua/api/reports/create', formReqData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -81,6 +104,55 @@ export default function Main() {
           value={formData.name}
           onChange={handleChange}
         />
+        <TextField
+          label="№ в/ч"
+          variant="filled"
+          name="unitCode"
+          value={formData.unitCode}
+          onChange={handleChange}
+        />
+        <TextField
+          label="Озброєння"
+          variant="filled"
+          name="weaponType"
+          value={formData.weaponType}
+          onChange={handleChange}
+        />
+        <TextField
+          label="Номер цілі"
+          variant="filled"
+          name="targetNumber"
+          value={formData.targetNumber}
+          onChange={handleChange}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={!!formData.targetNumber && formData.targetDestroyed}
+              name="targetDestroyed"
+              onChange={handleChange}
+            />
+          }
+          disabled={!formData.targetNumber}
+          label={!!formData.targetNumber && formData.targetDestroyed ? 'Уражена' : 'Не уражена'}
+        />
+        <LocalizationProvider
+          dateAdapter={AdapterDayjs}
+          adapterLocale="uk"
+        >
+          <DateTimePicker
+            label="Дата та час застосування"
+            value={engagementAt}
+            onChange={(value) => setEngagementAt(value)}
+            ampm={false}
+            slotProps={{
+              textField: {
+                fullWidth: true,
+                variant: 'filled',
+              },
+            }}
+          />
+        </LocalizationProvider>
         <Select
           label="Тип операції"
           name="operationType"
@@ -92,33 +164,17 @@ export default function Main() {
           }
         </Select>
         <TextField
-          label="Тип набоїв"
+          label="Переміщення МВГ"
           variant="filled"
-          name="ammoType"
-          value={formData.ammoType}
+          name="mvgMovement"
+          value={formData.mvgMovement}
           onChange={handleChange}
         />
         <TextField
-          label="Кількість витрачених набоїв"
+          label="Старший МВГ"
           variant="filled"
-          name="ammoCount"
-          type="number"
-          value={formData.ammoCount}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Залишок набоїв"
-          variant="filled"
-          name="remainingAmmoCount"
-          type="number"
-          value={formData.remainingAmmoCount}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Відповідальна особа"
-          variant="filled"
-          name="responsiblePerson"
-          value={formData.responsiblePerson}
+          name="mvgLeader"
+          value={formData.mvgLeader}
           onChange={handleChange}
         />
         <Button variant="contained" color="primary" onClick={handleSubmit} disabled={isDisabled}>Відправити звіт</Button>

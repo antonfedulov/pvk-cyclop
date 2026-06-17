@@ -4,11 +4,14 @@ import { sequelize } from '../config/database';
 class MvgReport extends Model {
   public id!: number;
   public name!: string;
+  public unitCode!: string;
+  public weaponType!: string;
+  public targetNumber!: string;
+  public targetDestroyed!: boolean;
+  public engagementAt!: Date;
   public operationType!: string;
-  public ammoType!: string;
-  public ammoCount!: number;
-  public remainingAmmoCount!: number;
-  public responsiblePerson!: string;
+  public mvgMovement!: string;
+  public mvgLeader!: string;
 }
 
 MvgReport.init(
@@ -22,21 +25,35 @@ MvgReport.init(
       type: new DataTypes.TEXT,
       allowNull: false,
     },
+    UnitCode: {
+      type: new DataTypes.TEXT,
+      allowNull: false,
+    },
+    WeaponType: {
+      type: new DataTypes.TEXT,
+      allowNull: false
+    },
+    TargetNumber: {
+      type: new DataTypes.TEXT,
+      allowNull: false
+    },
+    TargetDestroyed: {
+      type: new DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    EngagementAt: {
+      type: new DataTypes.DATE,
+      allowNull: false
+    },
     OperationType: {
       type: new DataTypes.TEXT,
       allowNull: false
     },
-    AmmoType: {
+    MvgMovement: {
       type: new DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
-    AmmoCount: {
-      type: new DataTypes.INTEGER
-    },
-    RemainingAmmoCount: {
-      type: new DataTypes.INTEGER
-    },
-    ResponsiblePerson: {
+    MvgLeader: {
       type: new DataTypes.TEXT,
       allowNull: false
     }

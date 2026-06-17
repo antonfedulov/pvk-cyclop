@@ -7,10 +7,17 @@ export const mvgReports = new Hono()
     try {
 
       const Name = c.req.query('Name')?.split(',') || [];
+      const UnitCode = c.req.query('UnitCode')?.split(',') || [];
+      const WeaponType = c.req.query('WeaponType')?.split(',') || [];
       const OperationType = c.req.query('OperationType')?.split(',') || [];
-      const AmmoType = c.req.query('AmmoType')?.split(',') || [];
 
-      const reports: ReportData[] = await getReports({ Name, OperationType, AmmoType });
+      const reports = await getReports({
+        Name,
+        UnitCode,
+        WeaponType,
+        OperationType
+      });
+
       return c.json(reports);
 
     } catch (error) {
@@ -21,17 +28,22 @@ export const mvgReports = new Hono()
   .post('/create', async (c) => {
     try {
       const { fields } = await parseFormData(c.req);
-      const { Name, OperationType, AmmoType, AmmoCount, ResponsiblePerson, RemainingAmmoCount } = fields;
-      if (!Name || !OperationType || !AmmoType || !AmmoCount || !ResponsiblePerson || !RemainingAmmoCount) {
+      const {
+        Name,
+        UnitCode,
+        WeaponType,
+        TargetNumber,
+        MvgMovement,
+        MvgLeader,
+        EngagementAt
+      } = fields;
+      
+      if (!Name || !UnitCode || !WeaponType || !TargetNumber || !MvgMovement || !MvgLeader) {
         return c.json({ message: 'All fields are required', report: {...fields} }, 400);
       }
       const newReport = await addReport({
-        Name,
-        OperationType,
-        AmmoType,
-        AmmoCount: +AmmoCount,
-        ResponsiblePerson,
-        RemainingAmmoCount: +RemainingAmmoCount
+        ...fields,
+        EngagementAt: new Date(EngagementAt)
       } as ReportData);
 
       if (newReport) {
