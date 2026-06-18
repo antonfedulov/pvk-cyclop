@@ -185,7 +185,7 @@ export default function CyclopTable() {
     targetNumber: 'Номер цілі',
     targetDestroyed: 'Результат',
     engagementAt: 'Дата та час',
-    operationType: 'Тип застосування',
+    operationType: 'Розхід боєприпасів',
     mvgMovement: 'Переміщення МВГ',
     mvgLeader: 'Старший МВГ'
   };

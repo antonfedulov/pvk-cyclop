@@ -1,5 +1,5 @@
 import './Main.scss';
-import { TextField, Button, Select, MenuItem, Snackbar, Switch, FormControlLabel } from '@mui/material';
+import { TextField, Button, Snackbar, Switch, FormControlLabel } from '@mui/material';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -18,7 +18,7 @@ export default function Main() {
     targetNumber: '',
     targetDestroyed: false,
     engagementAt: '',
-    operationType: 1,
+    operationType: '',
     mvgMovement: '',
     mvgLeader: ''
   };
@@ -43,9 +43,9 @@ export default function Main() {
     setState({ ...state, open: false });
   };
 
-  const operationTypes = [
-    { value: 1, option: 'розхід боєприпасів' }
-  ]
+  // const operationTypes = [
+  //   { value: 1, option: 'розхід боєприпасів' }
+  // ]
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
@@ -67,7 +67,7 @@ export default function Main() {
   };
 
   const handleSubmit = async () => {
-    const operationType = operationTypes.find(type => type.value === +formData.operationType)?.option;
+    //const operationType = operationTypes.find(type => type.value === +formData.operationType)?.option;
     const formReqData = new FormData();
 
     formReqData.append('Name', formData.name);
@@ -76,7 +76,7 @@ export default function Main() {
     formReqData.append('TargetNumber', formData.targetNumber);
     formReqData.append('TargetDestroyed', formData.targetDestroyed);
     formReqData.append('EngagementAt', engagementAt);
-    formReqData.append('OperationType', operationType);
+    formReqData.append('OperationType', formData.operationType);
     formReqData.append('MvgMovement', formData.mvgMovement);
     formReqData.append('MvgLeader', formData.mvgLeader);
   
@@ -153,7 +153,14 @@ export default function Main() {
             }}
           />
         </LocalizationProvider>
-        <Select
+        <TextField
+          label="Розхід боєприпасів"
+          variant="filled"
+          name="operationType"
+          value={formData.operationType}
+          onChange={handleChange}
+        />
+        {/* <Select
           label="Тип операції"
           name="operationType"
           value={formData.operationType}
@@ -162,7 +169,7 @@ export default function Main() {
           {
             operationTypes.length && operationTypes.map(type => (<MenuItem key={type.value} value={type.value}>{type.option}</MenuItem>))
           }
-        </Select>
+        </Select> */}
         <TextField
           label="Переміщення МВГ"
           variant="filled"
