@@ -51,6 +51,7 @@ function getStyles(name, personName, theme) {
 
 function getTableData({
   Name,
+  TgrName,
   UnitCode,
   WeaponType,
   TargetNumber,
@@ -62,6 +63,7 @@ function getTableData({
 }) {
   return {
     mvgName: Name,
+    tgrName: TgrName,
     unitCode: UnitCode,
     weaponType: WeaponType,
     targetNumber: TargetNumber,
@@ -76,6 +78,7 @@ function getTableData({
 function getExcelData({
   order,
   mvgName,
+  tgrName,
   unitCode,
   weaponType,
   targetNumber,
@@ -88,6 +91,7 @@ function getExcelData({
   return {
     '№': order,
     'Назва МВГ': mvgName,
+    'Назва ТГР': tgrName,
     '№ в/ч': unitCode,
     'Озброєння': weaponType,
     'Номер цілі': targetNumber,
@@ -180,6 +184,7 @@ export default function CyclopTable() {
   const headerMap = {
     order: '№',
     mvgName: 'Назва МВГ',
+    tgrName: 'Назва ТГР',
     unitCode: '№ в/ч',
     weaponType: 'Озброєння',
     targetNumber: 'Номер цілі',

@@ -13,6 +13,7 @@ export default function Main() {
 
   const initialState = {
     name: '',
+    tgrName: '',
     unitCode: '',
     weaponType: '',
     targetNumber: '',
@@ -71,6 +72,7 @@ export default function Main() {
     const formReqData = new FormData();
 
     formReqData.append('Name', formData.name);
+    formReqData.append('TgrName', formData.tgrName);
     formReqData.append('UnitCode', formData.unitCode);
     formReqData.append('WeaponType', formData.weaponType);
     formReqData.append('TargetNumber', formData.targetNumber);
@@ -102,6 +104,13 @@ export default function Main() {
           variant="filled"
           name="name"
           value={formData.name}
+          onChange={handleChange}
+        />
+        <TextField
+          label="Назва ТГР"
+          variant="filled"
+          name="tgrName"
+          value={formData.tgrName}
           onChange={handleChange}
         />
         <TextField

@@ -4,6 +4,7 @@ import { sequelize } from '../config/database';
 class MvgReport extends Model {
   public id!: number;
   public name!: string;
+  public tgrName!: string;
   public unitCode!: string;
   public weaponType!: string;
   public targetNumber!: string;
@@ -22,6 +23,10 @@ MvgReport.init(
       primaryKey: true
     },
     Name: {
+      type: new DataTypes.TEXT,
+      allowNull: false,
+    },
+    TgrName: {
       type: new DataTypes.TEXT,
       allowNull: false,
     },

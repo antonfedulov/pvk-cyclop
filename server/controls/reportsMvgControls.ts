@@ -4,6 +4,7 @@ import { Op } from 'sequelize';
 
 export interface ReportData {
   Name: string;
+  TgrName: string;
   UnitCode: string;
   WeaponType: string;
   TargetNumber: string;

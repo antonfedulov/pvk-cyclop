@@ -30,6 +30,7 @@ export const mvgReports = new Hono()
       const { fields } = await parseFormData(c.req);
       const {
         Name,
+        TgrName,
         UnitCode,
         WeaponType,
         TargetNumber,
@@ -38,7 +39,7 @@ export const mvgReports = new Hono()
         EngagementAt
       } = fields;
       
-      if (!Name || !UnitCode || !WeaponType || !TargetNumber || !MvgMovement || !MvgLeader) {
+      if (!Name || !TgrName || !UnitCode || !WeaponType || !TargetNumber || !MvgLeader) {
         return c.json({ message: 'All fields are required', report: {...fields} }, 400);
       }
       const newReport = await addReport({
